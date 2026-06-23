@@ -109,7 +109,7 @@
   </div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxHInwCKsO188ZmLkHFG9ll_hUX-xG9Lv1zsAwQ-fwEZTVplp22rMSmwcI5etsIdhy9/exec";
+    const scriptURL = "YAHAN_APNA_APPS_SCRIPT_WEB_APP_URL_DALO";
 
     document.getElementById("cancelForm").addEventListener("submit", async function(e) {
       e.preventDefault();
@@ -132,7 +132,7 @@
         const response = await fetch(scriptURL, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "text/plain;charset=utf-8"
           },
           body: JSON.stringify(formData)
         });
