@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Cancel FMS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    button {
+      width: 100%;
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    #message {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Order Cancel FMS Form</h2>
+
+    <form id="cancelForm">
+      <div class="form-group">
+        <label>Name Of The Person</label>
+        <input type="text" id="name" required />
+      </div>
+
+      <div class="form-group">
+        <label>FMS Name</label>
+        <input type="text" id="fmsName" required />
+      </div>
+
+      <div class="form-group">
+        <label>Order No.</label>
+        <input type="text" id="orderNo" required />
+      </div>
+
+      <div class="form-group">
+        <label>Party Name</label>
+        <input type="text" id="partyName" required />
+      </div>
+
+      <div class="form-group">
+        <label>Product Name</label>
+        <input type="text" id="productName" required />
+      </div>
+
+      <div class="form-group">
+        <label>Qty</label>
+        <input type="number" id="qty" required />
+      </div>
+
+      <div class="form-group">
+        <label>Note</label>
+        <textarea id="note"></textarea>
+      </div>
+
+      <button type="submit">Submit</button>
+      <div id="message"></div>
+    </form>
+  </div>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxHInwCKsO188ZmLkHFG9ll_hUX-xG9Lv1zsAwQ-fwEZTVplp22rMSmwcI5etsIdhy9/exec";
+
+    document.getElementById("cancelForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const message = document.getElementById("message");
+      message.style.color = "black";
+      message.innerText = "Submitting...";
+
+      const formData = {
+        name: document.getElementById("name").value,
+        fmsName: document.getElementById("fmsName").value,
+        orderNo: document.getElementById("orderNo").value,
+        partyName: document.getElementById("partyName").value,
+        productName: document.getElementById("productName").value,
+        qty: document.getElementById("qty").value,
+        note: document.getElementById("note").value
+      };
+
+      try {
+        const response = await fetch(scriptURL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          message.style.color = "green";
+          message.innerText = "Data submitted successfully!";
+          document.getElementById("cancelForm").reset();
+        } else {
+          message.style.color = "red";
+          message.innerText = "Error: " + result.error;
+        }
+      } catch (error) {
+        message.style.color = "red";
+        message.innerText = "Submission failed!";
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>
